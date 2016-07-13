@@ -66,6 +66,7 @@ namespace R3D.Landscape
         private void bApply_Click(object sender, EventArgs e)
         {
             this.Close();
+            DialogResult = DialogResult.OK;
         }
     }
 }

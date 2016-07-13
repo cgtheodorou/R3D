@@ -364,6 +364,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.bApply);
             this.Name = "LandscapeEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Landscape Editor";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

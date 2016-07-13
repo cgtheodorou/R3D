@@ -116,57 +116,5 @@ namespace R3D.Lib
             TileHeight = tileheight;
         }
 
-        public void CreateMesh(ref List<TVMesh> RawEntityManager, ref List<MeshDefinition> EntityManager, ref TVScene Scene, ref TVTextureFactory TexFact)
-        {
-
-            TVMesh Mesh = null;
-            MeshDefinition MeshDef = null;
-            int mIndex=0;
-
-            for (int i = 0; i < EntityManager.Count; i++)
-            {
-                if (EntityManager[i].MeshName == this.MeshName)
-                {
-                    MeshDef = EntityManager[i];
-                    mIndex = i;
-                    break;
-                }
-            }
-            
-            if (MeshDef != null) {
-                Mesh = RawEntityManager[mIndex];
-                RawEntityManager.RemoveAt(mIndex);
-                EntityManager.RemoveAt(mIndex);
-                Mesh.Destroy();
-                Mesh = null;
-
-                Mesh = new TVMesh();
-                Mesh = Scene.CreateMeshBuilder();
-            }
-            else
-            {
-                Mesh = new TVMesh();
-                Mesh = Scene.CreateMeshBuilder();
-            }
-
-
-            int MeshTexID = TexFact.LoadTexture(Texture, TextureName);
-
-            if (IsWall)
-            {
-                Mesh.AddWall(MeshTexID, X1, Z1, X2, Z2, Height, Altitude, TileWidth, TileHeight);
-            }
-            else
-            {
-                Mesh.AddFloor(MeshTexID, X1, Z1, X2, Z2, Altitude, TileWidth, TileHeight);
-            }
-
-            RawEntityManager.Add(Mesh);
-            this.ID = RawEntityManager.Count + 1;
-            this.MeshName = Mesh.GetMeshName();
-            EntityManager.Add(this);
-        }
-
-
     }
 }

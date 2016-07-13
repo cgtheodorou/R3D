@@ -21,6 +21,7 @@ namespace R3D.Editors
             if (_mesh != null)
             {
 
+                tMeshName.Text = _mesh.MeshName;
                 tTexture.Text = _mesh.Texture;
                 tTextureName.Text = _mesh.TextureName;
 
@@ -32,8 +33,8 @@ namespace R3D.Editors
                 tZ2.Text = _mesh.Z2.ToString();
                 tHeight.Text = _mesh.Height.ToString();
                 tAltitude.Text = _mesh.Altitude.ToString();
-                tTileW.Text = _mesh.TileHeight.ToString();
-                tTileH.Text = _mesh.TileWidth.ToString();
+                tTileW.Text = _mesh.TileWidth.ToString();
+                tTileH.Text = _mesh.TileHeight.ToString();
             }
 
         }
@@ -41,6 +42,7 @@ namespace R3D.Editors
         private void bApply_Click(object sender, EventArgs e)
         {
 
+            _mesh.MeshName = tMeshName.Text;
             _mesh.Texture = tTexture.Text;
             _mesh.TextureName = tTextureName.Text;
             

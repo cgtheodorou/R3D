@@ -53,12 +53,14 @@
             this.rbWall = new System.Windows.Forms.RadioButton();
             this.rbFloor = new System.Windows.Forms.RadioButton();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tMeshName = new System.Windows.Forms.TextBox();
+            this.lbMeshName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbTexture
             // 
             this.lbTexture.AutoSize = true;
-            this.lbTexture.Location = new System.Drawing.Point(10, 24);
+            this.lbTexture.Location = new System.Drawing.Point(10, 58);
             this.lbTexture.Name = "lbTexture";
             this.lbTexture.Size = new System.Drawing.Size(43, 13);
             this.lbTexture.TabIndex = 2;
@@ -67,7 +69,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 61);
+            this.label4.Location = new System.Drawing.Point(10, 95);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(59, 13);
             this.label4.TabIndex = 3;
@@ -75,14 +77,14 @@
             // 
             // tTexture
             // 
-            this.tTexture.Location = new System.Drawing.Point(68, 21);
+            this.tTexture.Location = new System.Drawing.Point(68, 55);
             this.tTexture.Name = "tTexture";
             this.tTexture.Size = new System.Drawing.Size(209, 20);
             this.tTexture.TabIndex = 5;
             // 
             // bLoadTex
             // 
-            this.bLoadTex.Location = new System.Drawing.Point(283, 19);
+            this.bLoadTex.Location = new System.Drawing.Point(283, 53);
             this.bLoadTex.Name = "bLoadTex";
             this.bLoadTex.Size = new System.Drawing.Size(75, 23);
             this.bLoadTex.TabIndex = 6;
@@ -92,7 +94,7 @@
             // 
             // tTextureName
             // 
-            this.tTextureName.Location = new System.Drawing.Point(68, 58);
+            this.tTextureName.Location = new System.Drawing.Point(68, 92);
             this.tTextureName.Name = "tTextureName";
             this.tTextureName.Size = new System.Drawing.Size(124, 20);
             this.tTextureName.TabIndex = 8;
@@ -100,7 +102,7 @@
             // lbX1
             // 
             this.lbX1.AutoSize = true;
-            this.lbX1.Location = new System.Drawing.Point(10, 106);
+            this.lbX1.Location = new System.Drawing.Point(10, 140);
             this.lbX1.Name = "lbX1";
             this.lbX1.Size = new System.Drawing.Size(20, 13);
             this.lbX1.TabIndex = 10;
@@ -109,7 +111,7 @@
             // lbX2
             // 
             this.lbX2.AutoSize = true;
-            this.lbX2.Location = new System.Drawing.Point(10, 138);
+            this.lbX2.Location = new System.Drawing.Point(10, 172);
             this.lbX2.Name = "lbX2";
             this.lbX2.Size = new System.Drawing.Size(20, 13);
             this.lbX2.TabIndex = 11;
@@ -118,7 +120,7 @@
             // lbZ1
             // 
             this.lbZ1.AutoSize = true;
-            this.lbZ1.Location = new System.Drawing.Point(99, 106);
+            this.lbZ1.Location = new System.Drawing.Point(99, 140);
             this.lbZ1.Name = "lbZ1";
             this.lbZ1.Size = new System.Drawing.Size(20, 13);
             this.lbZ1.TabIndex = 12;
@@ -127,7 +129,7 @@
             // lbZ2
             // 
             this.lbZ2.AutoSize = true;
-            this.lbZ2.Location = new System.Drawing.Point(99, 138);
+            this.lbZ2.Location = new System.Drawing.Point(99, 172);
             this.lbZ2.Name = "lbZ2";
             this.lbZ2.Size = new System.Drawing.Size(20, 13);
             this.lbZ2.TabIndex = 13;
@@ -136,7 +138,7 @@
             // lbHeight
             // 
             this.lbHeight.AutoSize = true;
-            this.lbHeight.Location = new System.Drawing.Point(189, 106);
+            this.lbHeight.Location = new System.Drawing.Point(189, 140);
             this.lbHeight.Name = "lbHeight";
             this.lbHeight.Size = new System.Drawing.Size(38, 13);
             this.lbHeight.TabIndex = 14;
@@ -145,7 +147,7 @@
             // lbAltitude
             // 
             this.lbAltitude.AutoSize = true;
-            this.lbAltitude.Location = new System.Drawing.Point(189, 138);
+            this.lbAltitude.Location = new System.Drawing.Point(189, 172);
             this.lbAltitude.Name = "lbAltitude";
             this.lbAltitude.Size = new System.Drawing.Size(42, 13);
             this.lbAltitude.TabIndex = 15;
@@ -154,7 +156,7 @@
             // lbTileW
             // 
             this.lbTileW.AutoSize = true;
-            this.lbTileW.Location = new System.Drawing.Point(293, 106);
+            this.lbTileW.Location = new System.Drawing.Point(293, 140);
             this.lbTileW.Name = "lbTileW";
             this.lbTileW.Size = new System.Drawing.Size(55, 13);
             this.lbTileW.TabIndex = 16;
@@ -163,7 +165,7 @@
             // lbTileH
             // 
             this.lbTileH.AutoSize = true;
-            this.lbTileH.Location = new System.Drawing.Point(293, 138);
+            this.lbTileH.Location = new System.Drawing.Point(293, 172);
             this.lbTileH.Name = "lbTileH";
             this.lbTileH.Size = new System.Drawing.Size(58, 13);
             this.lbTileH.TabIndex = 17;
@@ -171,63 +173,63 @@
             // 
             // tX1
             // 
-            this.tX1.Location = new System.Drawing.Point(36, 103);
+            this.tX1.Location = new System.Drawing.Point(36, 137);
             this.tX1.Name = "tX1";
             this.tX1.Size = new System.Drawing.Size(41, 20);
             this.tX1.TabIndex = 18;
             // 
             // tX2
             // 
-            this.tX2.Location = new System.Drawing.Point(36, 135);
+            this.tX2.Location = new System.Drawing.Point(36, 169);
             this.tX2.Name = "tX2";
             this.tX2.Size = new System.Drawing.Size(41, 20);
             this.tX2.TabIndex = 19;
             // 
             // tZ1
             // 
-            this.tZ1.Location = new System.Drawing.Point(125, 103);
+            this.tZ1.Location = new System.Drawing.Point(125, 137);
             this.tZ1.Name = "tZ1";
             this.tZ1.Size = new System.Drawing.Size(41, 20);
             this.tZ1.TabIndex = 20;
             // 
             // tZ2
             // 
-            this.tZ2.Location = new System.Drawing.Point(125, 135);
+            this.tZ2.Location = new System.Drawing.Point(125, 169);
             this.tZ2.Name = "tZ2";
             this.tZ2.Size = new System.Drawing.Size(41, 20);
             this.tZ2.TabIndex = 21;
             // 
             // tHeight
             // 
-            this.tHeight.Location = new System.Drawing.Point(233, 103);
+            this.tHeight.Location = new System.Drawing.Point(233, 137);
             this.tHeight.Name = "tHeight";
             this.tHeight.Size = new System.Drawing.Size(41, 20);
             this.tHeight.TabIndex = 22;
             // 
             // tAltitude
             // 
-            this.tAltitude.Location = new System.Drawing.Point(233, 135);
+            this.tAltitude.Location = new System.Drawing.Point(233, 169);
             this.tAltitude.Name = "tAltitude";
             this.tAltitude.Size = new System.Drawing.Size(41, 20);
             this.tAltitude.TabIndex = 23;
             // 
             // tTileW
             // 
-            this.tTileW.Location = new System.Drawing.Point(354, 103);
+            this.tTileW.Location = new System.Drawing.Point(354, 137);
             this.tTileW.Name = "tTileW";
             this.tTileW.Size = new System.Drawing.Size(41, 20);
             this.tTileW.TabIndex = 24;
             // 
             // tTileH
             // 
-            this.tTileH.Location = new System.Drawing.Point(354, 131);
+            this.tTileH.Location = new System.Drawing.Point(354, 165);
             this.tTileH.Name = "tTileH";
             this.tTileH.Size = new System.Drawing.Size(41, 20);
             this.tTileH.TabIndex = 25;
             // 
             // bApply
             // 
-            this.bApply.Location = new System.Drawing.Point(12, 238);
+            this.bApply.Location = new System.Drawing.Point(12, 272);
             this.bApply.Name = "bApply";
             this.bApply.Size = new System.Drawing.Size(75, 23);
             this.bApply.TabIndex = 27;
@@ -238,7 +240,7 @@
             // rbWall
             // 
             this.rbWall.AutoSize = true;
-            this.rbWall.Location = new System.Drawing.Point(12, 192);
+            this.rbWall.Location = new System.Drawing.Point(12, 226);
             this.rbWall.Name = "rbWall";
             this.rbWall.Size = new System.Drawing.Size(46, 17);
             this.rbWall.TabIndex = 28;
@@ -249,7 +251,7 @@
             // rbFloor
             // 
             this.rbFloor.AutoSize = true;
-            this.rbFloor.Location = new System.Drawing.Point(68, 192);
+            this.rbFloor.Location = new System.Drawing.Point(68, 226);
             this.rbFloor.Name = "rbFloor";
             this.rbFloor.Size = new System.Drawing.Size(84, 17);
             this.rbFloor.TabIndex = 29;
@@ -261,11 +263,29 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // tMeshName
+            // 
+            this.tMeshName.Location = new System.Drawing.Point(68, 23);
+            this.tMeshName.Name = "tMeshName";
+            this.tMeshName.Size = new System.Drawing.Size(124, 20);
+            this.tMeshName.TabIndex = 33;
+            // 
+            // lbMeshName
+            // 
+            this.lbMeshName.AutoSize = true;
+            this.lbMeshName.Location = new System.Drawing.Point(10, 26);
+            this.lbMeshName.Name = "lbMeshName";
+            this.lbMeshName.Size = new System.Drawing.Size(35, 13);
+            this.lbMeshName.TabIndex = 32;
+            this.lbMeshName.Text = "Name";
+            // 
             // MeshEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 290);
+            this.ClientSize = new System.Drawing.Size(407, 315);
+            this.Controls.Add(this.tMeshName);
+            this.Controls.Add(this.lbMeshName);
             this.Controls.Add(this.rbFloor);
             this.Controls.Add(this.rbWall);
             this.Controls.Add(this.bApply);
@@ -290,7 +310,11 @@
             this.Controls.Add(this.tTexture);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lbTexture);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MeshEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MeshEditor";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -323,5 +347,7 @@
         private System.Windows.Forms.RadioButton rbWall;
         private System.Windows.Forms.RadioButton rbFloor;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox tMeshName;
+        private System.Windows.Forms.Label lbMeshName;
     }
 }

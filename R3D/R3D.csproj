@@ -105,6 +105,9 @@
     <EmbeddedResource Include="Editors\MeshEditor.resx">
       <DependentUpon>MeshEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Editors\WaterEditor.resx">
+      <DependentUpon>WaterEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
