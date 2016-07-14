@@ -171,7 +171,7 @@ namespace R3D.Lib
                     break;
                 }
             }
-
+            
             if (MeshDef != null)
             {
                 NativeEntityManager[mIndex].Destroy();

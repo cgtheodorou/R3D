@@ -36,6 +36,8 @@ namespace R3D
         public TVScreen2DImmediate Screen2D;
         public TVScreen2DText Text2D;
 
+        public List<KeyValuePair<string, string>> pendingTasks;
+
         private float sngPositionX;
         private float sngPositionY;
         private float sngPositionZ;
@@ -60,15 +62,8 @@ namespace R3D
             this.FormClosing += Editor_FormClosing;
             lstEntities.MouseDoubleClick += lstEntities_MouseDoubleClick;
 
-        }
+            pendingTasks = new List<KeyValuePair<string, string>>();
 
-        private void InitCore()
-        {
-            if (World == null)
-            {
-                World = new R3DWorld();
-            }
-            
             Engine = new TVEngine();
             Scene = new TVScene();
             Inputs = new TVInputEngine();
@@ -81,6 +76,18 @@ namespace R3D
             Text2D = new TVScreen2DText();
             Lights = new TVLightEngine();
             Camera = new TVCamera();
+
+            InitCore();
+
+            DoLoop = true;
+            Main_Loop();
+
+        }
+
+        private void InitCore()
+        {
+
+            if (World == null) { World = new R3DWorld(); }
 
             Engine.SetSearchDirectory(Application.StartupPath);
 
@@ -122,8 +129,6 @@ namespace R3D
             do
             {
 
-                Application.DoEvents();
-
                 Check_Input();
 
                 Check_Movement();
@@ -154,10 +159,12 @@ namespace R3D
 
                 Engine.RenderToScreen();
 
+                Application.DoEvents();
+
             } while (DoLoop == true);
 
             Destroy();
-
+            ExecutePending();
         }
 
         public void InitLoadedWorld()
@@ -199,7 +206,6 @@ namespace R3D
 
             DoLoop = true;
             Main_Loop();
-
 
         }
 
@@ -310,25 +316,31 @@ namespace R3D
 
         private void Destroy(bool exit = false)
         {
-            //Destruction of objects to clear memory.
+            //Release objects to clear memory.
             if (Engine != null) { Engine.ReleaseAll(); }
 
-            Engine = null;
-            Scene = null;
-            Inputs = null;
-            Atmo = null;
-            MatFact = null;
-            TexFact = null;
-            Globals = null;
-            Maths = null;
-            Screen2D = null;
-            Text2D = null;
-            Lights = null;
-            Camera = null;
-            viewPort = null;
             World = null;
 
-            if (exit) { System.Environment.Exit(0); }          
+            if (exit) {
+
+                Engine = null;
+                Scene = null;
+                Inputs = null;
+                Atmo = null;
+                MatFact = null;
+                TexFact = null;
+                Globals = null;
+                Maths = null;
+                Screen2D = null;
+                Text2D = null;
+                Lights = null;
+                Camera = null;
+                viewPort = null;
+                World = null;
+
+                System.Environment.Exit(0);
+
+            }          
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -361,10 +373,11 @@ namespace R3D
             if (result == DialogResult.OK)
             {
                 string file = openFileDialog.FileName;
-            
-                World = new R3DWorld();
-                World.LoadWorld(file);
-                InitLoadedWorld();
+
+                KeyValuePair<string, string> task = new KeyValuePair<string, string>("load", file);
+                pendingTasks.Add(task);
+                DoLoop = false;
+
             }
         }
 
@@ -455,6 +468,21 @@ namespace R3D
             InitCore();
             DoLoop = true;
             Main_Loop();
+        }
+
+        private void ExecutePending()
+        { 
+            foreach (var item in pendingTasks)
+            {
+                if (item.Key == "load")
+                {
+                    World = new R3DWorld();
+                    World.LoadWorld(item.Value);
+                    InitLoadedWorld();
+                }
+            }
+
+            pendingTasks = null;
         }
 
     }
