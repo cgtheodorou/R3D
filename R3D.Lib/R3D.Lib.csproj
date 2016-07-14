@@ -47,6 +47,7 @@
     <Compile Include="CloudDefinition.cs" />
     <Compile Include="LandscapeDefinition.cs" />
     <Compile Include="MeshDefinition.cs" />
+    <Compile Include="ModelDefinition.cs" />
     <Compile Include="SkyboxDefinition.cs" />
     <Compile Include="WaterPlaneDefinition.cs" />
     <Compile Include="R3DWorld.cs" />

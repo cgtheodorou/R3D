@@ -39,7 +39,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.lbModels = new System.Windows.Forms.ListBox();
+            this.lstModels = new System.Windows.Forms.ListBox();
             this.bCreateModel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.bCreateMesh = new System.Windows.Forms.Button();
@@ -47,6 +47,13 @@
             this.bNewLand = new System.Windows.Forms.Button();
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.renderTimer = new System.Windows.Forms.Timer(this.components);
+            this.bSetModelPos = new System.Windows.Forms.Button();
+            this.lbModelX = new System.Windows.Forms.Label();
+            this.tModelX = new System.Windows.Forms.TextBox();
+            this.tModelY = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tModelZ = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.WorldViewPort)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
@@ -119,7 +126,14 @@
             // 
             // tabGeneral
             // 
-            this.tabGeneral.Controls.Add(this.lbModels);
+            this.tabGeneral.Controls.Add(this.tModelZ);
+            this.tabGeneral.Controls.Add(this.label3);
+            this.tabGeneral.Controls.Add(this.tModelY);
+            this.tabGeneral.Controls.Add(this.label2);
+            this.tabGeneral.Controls.Add(this.tModelX);
+            this.tabGeneral.Controls.Add(this.lbModelX);
+            this.tabGeneral.Controls.Add(this.bSetModelPos);
+            this.tabGeneral.Controls.Add(this.lstModels);
             this.tabGeneral.Controls.Add(this.bCreateModel);
             this.tabGeneral.Controls.Add(this.label1);
             this.tabGeneral.Controls.Add(this.bCreateMesh);
@@ -133,13 +147,13 @@
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
             // 
-            // lbModels
+            // lstModels
             // 
-            this.lbModels.FormattingEnabled = true;
-            this.lbModels.Location = new System.Drawing.Point(6, 200);
-            this.lbModels.Name = "lbModels";
-            this.lbModels.Size = new System.Drawing.Size(192, 134);
-            this.lbModels.TabIndex = 6;
+            this.lstModels.FormattingEnabled = true;
+            this.lstModels.Location = new System.Drawing.Point(6, 200);
+            this.lstModels.Name = "lstModels";
+            this.lstModels.Size = new System.Drawing.Size(192, 134);
+            this.lstModels.TabIndex = 6;
             // 
             // bCreateModel
             // 
@@ -199,6 +213,64 @@
             this.tcSettings.Size = new System.Drawing.Size(214, 576);
             this.tcSettings.TabIndex = 2;
             // 
+            // bSetModelPos
+            // 
+            this.bSetModelPos.Location = new System.Drawing.Point(6, 404);
+            this.bSetModelPos.Name = "bSetModelPos";
+            this.bSetModelPos.Size = new System.Drawing.Size(192, 23);
+            this.bSetModelPos.TabIndex = 7;
+            this.bSetModelPos.Text = "Set Position";
+            this.bSetModelPos.UseVisualStyleBackColor = true;
+            this.bSetModelPos.Click += new System.EventHandler(this.bSetModelPos_Click);
+            // 
+            // lbModelX
+            // 
+            this.lbModelX.AutoSize = true;
+            this.lbModelX.Location = new System.Drawing.Point(9, 381);
+            this.lbModelX.Name = "lbModelX";
+            this.lbModelX.Size = new System.Drawing.Size(14, 13);
+            this.lbModelX.TabIndex = 8;
+            this.lbModelX.Text = "X";
+            // 
+            // tModelX
+            // 
+            this.tModelX.Location = new System.Drawing.Point(29, 378);
+            this.tModelX.Name = "tModelX";
+            this.tModelX.Size = new System.Drawing.Size(35, 20);
+            this.tModelX.TabIndex = 11;
+            // 
+            // tModelY
+            // 
+            this.tModelY.Location = new System.Drawing.Point(94, 378);
+            this.tModelY.Name = "tModelY";
+            this.tModelY.Size = new System.Drawing.Size(35, 20);
+            this.tModelY.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(74, 381);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(14, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Y";
+            // 
+            // tModelZ
+            // 
+            this.tModelZ.Location = new System.Drawing.Point(155, 378);
+            this.tModelZ.Name = "tModelZ";
+            this.tModelZ.Size = new System.Drawing.Size(35, 20);
+            this.tModelZ.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(135, 381);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(14, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Z";
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,11 +310,18 @@
         private System.Windows.Forms.TabControl tcSettings;
         private System.Windows.Forms.ListBox lstEntities;
         private System.Windows.Forms.Button bCreateMesh;
-        private System.Windows.Forms.ListBox lbModels;
+        private System.Windows.Forms.ListBox lstModels;
         private System.Windows.Forms.Button bCreateModel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Timer renderTimer;
+        private System.Windows.Forms.TextBox tModelZ;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tModelY;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tModelX;
+        private System.Windows.Forms.Label lbModelX;
+        private System.Windows.Forms.Button bSetModelPos;
     }
 }
 

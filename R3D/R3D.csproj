@@ -88,6 +88,12 @@
     <Compile Include="Editors\MeshEditor.Designer.cs">
       <DependentUpon>MeshEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\ModelEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\ModelEditor.Designer.cs">
+      <DependentUpon>ModelEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\WaterEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\MeshEditor.resx">
       <DependentUpon>MeshEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\ModelEditor.resx">
+      <DependentUpon>ModelEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\WaterEditor.resx">
       <DependentUpon>WaterEditor.cs</DependentUpon>
@@ -135,6 +144,11 @@
       <Project>{04c930f9-fbcc-4e46-9604-c751ea3c03a4}</Project>
       <Name>R3D.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SampleLevels\BasicRoom.xml" />
+    <Content Include="SampleLevels\terrainWorld.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

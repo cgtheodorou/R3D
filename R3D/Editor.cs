@@ -61,6 +61,8 @@ namespace R3D
 
             this.FormClosing += Editor_FormClosing;
             lstEntities.MouseDoubleClick += lstEntities_MouseDoubleClick;
+            lstModels.MouseDoubleClick += lstModels_MouseDoubleClick;
+            lstModels.SelectedIndexChanged += lstModels_SelectedIndexChanged;
 
             pendingTasks = new List<KeyValuePair<string, string>>();
 
@@ -123,6 +125,48 @@ namespace R3D
 
         }
 
+        public void InitWorld()
+        {
+
+            InitCore();
+
+            if (World != null)
+            {
+                // Init skybox
+                if (World.SkyBox != null)
+                {
+                    World.SkyBox.CreateSkybox(ref TexFact, ref Atmo, ref Globals);
+                }
+
+                // Init lighting setup
+                Lights.CreateDirectionalLight(new TV_3DVECTOR(0, -0.9f, -0.8f), 1, 1, 0.95f, "Sunlight", 1f);
+
+                // Init Landscape
+                if (World.Landscape != null)
+                {
+                    LandscapeDefinition R3DLand = World.Landscape;
+                    World.CreateLandscape(ref R3DLand, ref Land, ref Scene, ref TexFact, ref MatFact, ref Globals);
+                }
+
+                //Init Waterplane
+                if (World.Water != null)
+                {
+                    World.Water.CreateWaterPlane(ref TexFact, ref Scene, ref Camera, ref Maths, ref Globals);
+                }
+
+                if (World.EntityManager != null && World.EntityManager.Count > 0)
+                {
+                    World.LoadMeshesFromEM(ref Scene, ref TexFact);
+                    BindEntities();
+                }
+
+            }
+
+            DoLoop = true;
+            Main_Loop();
+
+        }
+
         private void Main_Loop()
         {
 
@@ -165,48 +209,6 @@ namespace R3D
 
             Destroy();
             ExecutePending();
-        }
-
-        public void InitLoadedWorld()
-        {
-
-            InitCore();
-
-            if (World != null)
-            {
-                // Init skybox
-                if (World.SkyBox != null)
-                {
-                    World.SkyBox.CreateSkybox(ref TexFact, ref Atmo, ref Globals);
-                }
-
-                // Init lighting setup
-                Lights.CreateDirectionalLight(new TV_3DVECTOR(0, -0.9f, -0.8f), 1, 1, 0.95f, "Sunlight", 1f);
-
-                // Init Landscape
-                if (World.Landscape != null)
-                {
-                    LandscapeDefinition R3DLand = World.Landscape;
-                    World.CreateLandscape(ref R3DLand, ref Land, ref Scene, ref TexFact, ref MatFact, ref Globals);
-                }
-
-                //Init Waterplane
-                if (World.Water != null)
-                {
-                    World.Water.CreateWaterPlane(ref TexFact, ref Scene, ref Camera, ref Maths, ref Globals);
-                }  
-
-                if (World.EntityManager != null && World.EntityManager.Count > 0)
-                {
-                    World.LoadMeshesFromEM(ref Scene, ref TexFact);
-                    BindEntities();
-                }
-
-            }
-
-            DoLoop = true;
-            Main_Loop();
-
         }
 
         public void RenderDistant()
@@ -299,10 +301,10 @@ namespace R3D
 
             if (Land != null)
             {
-                sngPositionY = Land.GetHeight(sngPositionX, sngPositionZ) + 30;
+                sngPositionY = Land.GetHeight(sngPositionX, sngPositionZ) + 10;
             }else
             {
-                sngPositionY = 40f;
+                sngPositionY = 10f;
             }
 
 
@@ -423,11 +425,46 @@ namespace R3D
 
                 if (dr == DialogResult.OK)
                 {
-                    World.CreateMesh(ref Engine, ref R3DMesh, ref Scene, ref TexFact);
+                    World.CreateMesh(ref R3DMesh, ref Scene, ref TexFact);
                     BindEntities();
                 }       
 
             }
+        }
+
+        void lstModels_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            tcSettings.Focus();
+
+            DialogResult dr;
+            int index = this.lstModels.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                ModelDefinition R3DModel = (ModelDefinition)lstModels.Items[index];
+                using (R3D.Editors.ModelEditor modelEdit = new R3D.Editors.ModelEditor(ref R3DModel))
+                {
+                    dr = modelEdit.ShowDialog();
+                }
+
+                if (dr == DialogResult.OK)
+                {
+                    World.CreateModel(ref R3DModel, ref Scene, ref TexFact, ref Globals);
+                    BindModels();
+                }
+
+            }
+        }
+
+        void lstModels_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+  
+            {
+                ModelDefinition R3DModel = (ModelDefinition)lstModels.SelectedItem;
+                tModelX.Text = R3DModel.PosX.ToString();
+                tModelY.Text = R3DModel.PosY.ToString();
+                tModelZ.Text = R3DModel.PosZ.ToString();
+            }
+
         }
 
         private void BindEntities()
@@ -438,6 +475,16 @@ namespace R3D
             lstEntities.DataSource = World.EntityManager;
             lstEntities.DisplayMember = "MeshName";
             lstEntities.ValueMember = "ID";
+        }
+
+        private void BindModels()
+        {
+            //clear out previous
+            lstModels.DataSource = null;
+
+            lstModels.DataSource = World.ModelManager;
+            lstModels.DisplayMember = "ModelName";
+            lstModels.ValueMember = "ID";
         }
 
         private void bCreateMesh_Click(object sender, EventArgs e)
@@ -453,7 +500,7 @@ namespace R3D
 
             if (dr == DialogResult.OK)
             {
-                World.CreateMesh(ref Engine, ref R3DMesh, ref Scene, ref TexFact);
+                World.CreateMesh(ref R3DMesh, ref Scene, ref TexFact);
                 BindEntities();
             }
 
@@ -462,6 +509,20 @@ namespace R3D
         private void bCreateModel_Click(object sender, EventArgs e)
         {
             tcSettings.Focus();
+
+            DialogResult dr;
+            ModelDefinition R3DModel = new ModelDefinition();
+            using (R3D.Editors.ModelEditor modelEdit = new R3D.Editors.ModelEditor(ref R3DModel))
+            {
+                dr = modelEdit.ShowDialog();
+            }
+
+            if (dr == DialogResult.OK)
+            {
+                World.CreateModel(ref R3DModel, ref Scene, ref TexFact, ref Globals);
+                BindModels();
+            }
+
         }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -478,13 +539,35 @@ namespace R3D
                 {
                     World = new R3DWorld();
                     World.LoadWorld(item.Value);
-                    InitLoadedWorld();
+                    InitWorld();
                 }
             }
 
             pendingTasks = null;
         }
 
+        private void bSetModelPos_Click(object sender, EventArgs e)
+        {
+
+            if (tModelX.Text.Length == 0 || tModelY.Text.Length == 0 || tModelZ.Text.Length == 0) { return; }
+            
+            ModelDefinition selectedR3DModel = (ModelDefinition)lstModels.SelectedItem;
+
+            if (selectedR3DModel != null)
+            {
+                float posX;
+                float posY;
+                float posZ;
+
+                float.TryParse(tModelX.Text, out posX);
+                float.TryParse(tModelY.Text, out posY);
+                float.TryParse(tModelZ.Text, out posZ);
+
+                World.NativeModelManager.Find(x => x.GetMeshName() == selectedR3DModel.ModelName).SetPosition(posX, posY, posZ);
+                World.ModelManager.Find(x => x.ModelName == selectedR3DModel.ModelName).SetPosition(posX, posY, posZ);
+            }
+
+        }
     }
 
 }

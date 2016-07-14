@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<R3DWorld xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>0</ID>
+  <EntityManager>
+    <MeshDefinition>
+      <ID>2</ID>
+      <MeshName>Floor</MeshName>
+      <Texture>Media\Building Textures\3.bmp</Texture>
+      <TextureName>floor</TextureName>
+      <IsWall>false</IsWall>
+      <X1>-500</X1>
+      <Z1>-500</Z1>
+      <X2>500</X2>
+      <Z2>500</Z2>
+      <Height>0</Height>
+      <Altitude>0</Altitude>
+      <TileWidth>10</TileWidth>
+      <TileHeight>10</TileHeight>
+    </MeshDefinition>
+    <MeshDefinition>
+      <ID>3</ID>
+      <MeshName>Wall1</MeshName>
+      <Texture>Media\Building Textures\10.bmp</Texture>
+      <TextureName>wall1</TextureName>
+      <IsWall>true</IsWall>
+      <X1>500</X1>
+      <Z1>-500</Z1>
+      <X2>-500</X2>
+      <Z2>-500</Z2>
+      <Height>100</Height>
+      <Altitude>0</Altitude>
+      <TileWidth>3</TileWidth>
+      <TileHeight>1</TileHeight>
+    </MeshDefinition>
+    <MeshDefinition>
+      <ID>4</ID>
+      <MeshName>Wall2</MeshName>
+      <Texture>Media\Building Textures\10.bmp</Texture>
+      <TextureName>Wall2</TextureName>
+      <IsWall>true</IsWall>
+      <X1>-500</X1>
+      <Z1>-500</Z1>
+      <X2>-500</X2>
+      <Z2>500</Z2>
+      <Height>100</Height>
+      <Altitude>0</Altitude>
+      <TileWidth>3</TileWidth>
+      <TileHeight>1</TileHeight>
+    </MeshDefinition>
+    <MeshDefinition>
+      <ID>5</ID>
+      <MeshName>Wall3</MeshName>
+      <Texture>Media\Building Textures\10.bmp</Texture>
+      <TextureName>wall3</TextureName>
+      <IsWall>true</IsWall>
+      <X1>-500</X1>
+      <Z1>500</Z1>
+      <X2>500</X2>
+      <Z2>500</Z2>
+      <Height>100</Height>
+      <Altitude>0</Altitude>
+      <TileWidth>3</TileWidth>
+      <TileHeight>1</TileHeight>
+    </MeshDefinition>
+    <MeshDefinition>
+      <ID>6</ID>
+      <MeshName>Wall4</MeshName>
+      <Texture>Media\Building Textures\10.bmp</Texture>
+      <TextureName>Wall4</TextureName>
+      <IsWall>true</IsWall>
+      <X1>500</X1>
+      <Z1>500</Z1>
+      <X2>500</X2>
+      <Z2>-500</Z2>
+      <Height>100</Height>
+      <Altitude>0</Altitude>
+      <TileWidth>3</TileWidth>
+      <TileHeight>1</TileHeight>
+    </MeshDefinition>
+  </EntityManager>
+  <Camera>
+    <DegreesFOV>75</DegreesFOV>
+    <FarPlane>100000</FarPlane>
+    <NearPlane>1</NearPlane>
+    <PosX>0</PosX>
+    <PosY>0</PosY>
+    <PosZ>0</PosZ>
+  </Camera>
+</R3DWorld>

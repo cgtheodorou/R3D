@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<R3DWorld xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ID>0</ID>
+  <EntityManager />
+  <Landscape>
+    <Heightmap>C:\Users\GuiltySpark\Documents\Visual Studio 2015\Projects\R3D\R3D\bin\x86\Debug\Media\Textures\Landscape\Heightmap.jpg</Heightmap>
+    <LandTexture>C:\Users\GuiltySpark\Documents\Visual Studio 2015\Projects\R3D\R3D\bin\x86\Debug\Media\Textures\Landscape\Land.dds</LandTexture>
+    <LandDetail>C:\Users\GuiltySpark\Documents\Visual Studio 2015\Projects\R3D\R3D\bin\x86\Debug\Media\Textures\Landscape\Detail.dds</LandDetail>
+  </Landscape>
+  <Camera>
+    <DegreesFOV>75</DegreesFOV>
+    <FarPlane>100000</FarPlane>
+    <NearPlane>1</NearPlane>
+    <PosX>0</PosX>
+    <PosY>0</PosY>
+    <PosZ>0</PosZ>
+  </Camera>
+</R3DWorld>
