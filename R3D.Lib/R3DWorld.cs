@@ -16,9 +16,15 @@ namespace R3D.Lib
     {
 
         //vars
+        private string _mediaPath;
+
         public List<MeshDefinition> _entityManager = new List<MeshDefinition>();
         public List<LandscapeDefinition> _landscapeManager = new List<LandscapeDefinition>();
         public List<ModelDefinition> _modelManager = new List<ModelDefinition>();
+
+        private SkyboxDefinition _skybox;
+        private LandscapeDefinition _landscape;
+        private WaterPlaneDefinition _water;
 
         [NonSerialized]
         public List<TVMesh> _nativeEntityManager = new List<TVMesh>();
@@ -27,9 +33,7 @@ namespace R3D.Lib
         [NonSerialized]
         public List<TVMesh> _nativeModelManager = new List<TVMesh>();
 
-        private SkyboxDefinition _skybox;
-        private LandscapeDefinition _landscape;
-        private WaterPlaneDefinition _water;
+        [NonSerialized]
         private CameraDefinition _camera;
 
         //properties
@@ -99,8 +103,8 @@ namespace R3D.Lib
                     _camera.FarPlane = 100000f;
                     _camera.NearPlane = 1f;
                     _camera.PosX = 0f;
-                    _camera.PosY = 0f;
-                    _camera.PosZ = 0f;
+                    _camera.PosY = 20f;
+                    _camera.PosZ = 1000f;
                     return _camera;
                 }
                 else
@@ -108,7 +112,12 @@ namespace R3D.Lib
                     return _camera;
                 }
             }
-            set { _camera = value; }
+        }
+
+        public string MediaPath
+        {
+            get { return _mediaPath; }
+            set { _mediaPath = value; }
         }
 
         public R3DWorld( ) { }
@@ -121,7 +130,7 @@ namespace R3D.Lib
                 TVMesh Mesh;
                 Mesh = Scene.CreateMeshBuilder();
 
-                int MeshTexID = TexFact.LoadTexture(item.Texture, item.TextureName);
+                int MeshTexID = TexFact.LoadTexture(MediaPath + item.Texture, item.TextureName);
 
                 if (item.IsWall)
                 {
@@ -132,6 +141,7 @@ namespace R3D.Lib
                     Mesh.AddFloor(MeshTexID, item.X1, item.Z1, item.X2, item.Z2, item.Altitude, item.TileWidth, item.TileHeight);
                 }
 
+                Mesh.SetMeshName(item.MeshName);
                 NativeEntityManager.Add(Mesh);
                 
                 //destroy ref after use
@@ -150,7 +160,6 @@ namespace R3D.Lib
 
             R3DWorld loadW = serializer.Deserialize(reader) as R3DWorld;
 
-            this.Camera = loadW.Camera;
             this.EntityManager = loadW.EntityManager;
             this.SkyBox = loadW.SkyBox;
             this.Water = loadW.Water;
@@ -202,7 +211,7 @@ namespace R3D.Lib
 
             if (R3DModel.AutoLoadTextures == false)
             {
-                TexFact.LoadTexture(R3DModel.TextureFilePath, R3DModel.TextureName);
+                TexFact.LoadTexture(MediaPath + R3DModel.TextureFilePath, R3DModel.TextureName);
                 NativeMesh.SetTexture(Globals.GetTex(R3DModel.TextureName));
             }
 
@@ -242,7 +251,7 @@ namespace R3D.Lib
             NativeMesh = new TVMesh();
             NativeMesh = Scene.CreateMeshBuilder(R3DMesh.MeshName);
 
-            int MeshTexID = TexFact.LoadTexture(R3DMesh.Texture, R3DMesh.TextureName);
+            int MeshTexID = TexFact.LoadTexture(MediaPath + R3DMesh.Texture, R3DMesh.TextureName);
 
             if (R3DMesh.IsWall)
             {
@@ -274,9 +283,9 @@ namespace R3D.Lib
             MatFact.SetEmissive(matNo, 0f, 0f, 0f, 1f);
             MatFact.SetSpecular(matNo, 0f, 0f, 0f, 1f);
             MatFact.SetOpacity(matNo, 0.5f);
-
-            TexFact.LoadTexture(R3DLand.LandTexture, "LandTexture");
-            TexFact.LoadTexture(R3DLand.LandDetail, "LandDetail");
+            
+            TexFact.LoadTexture(MediaPath + R3DLand.LandTexture, "LandTexture");
+            TexFact.LoadTexture(MediaPath + R3DLand.LandDetail, "LandDetail");
 
             Land = Scene.CreateLandscape();
             Land.SetAffineLevel(CONST_TV_LANDSCAPE_AFFINE.TV_AFFINE_HIGH);
@@ -291,7 +300,7 @@ namespace R3D.Lib
             Land.SetDetailMode(CONST_TV_DETAILMAP_MODE.TV_DETAILMAP_MODULATE2X);
 
             Land.EnableLOD(true, 1000f, CONST_TV_LANDSCAPE_PRECISION.TV_PRECISION_VERY_LOW, 0f, false);
-            Land.SetProgressiveLOD(true);
+            //Land.SetProgressiveLOD(true);
             
             LandscapeManager.Add(R3DLand);
             NativeLandscapeManager.Add(Land);

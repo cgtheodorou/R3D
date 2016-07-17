@@ -36,7 +36,13 @@ namespace R3D
         public TVScreen2DImmediate Screen2D;
         public TVScreen2DText Text2D;
 
+        private TVCollisionResult CollisionResult;
+        private TVMesh selectedMesh;
+
         public List<KeyValuePair<string, string>> pendingTasks;
+
+        enum EditorMode { MOVE, SCALE };
+        private EditorMode editMode = 0;
 
         private float sngPositionX;
         private float sngPositionY;
@@ -53,19 +59,36 @@ namespace R3D
         public bool vSyncON = true;
         public bool initKeys = true;
         public bool initMouse = true;
+        public bool drawEditGrid = true;
 
         public Editor()
         {
 
             InitializeComponent();
 
-            this.FormClosing += Editor_FormClosing;
-            lstEntities.MouseDoubleClick += lstEntities_MouseDoubleClick;
-            lstModels.MouseDoubleClick += lstModels_MouseDoubleClick;
-            lstModels.SelectedIndexChanged += lstModels_SelectedIndexChanged;
+            BindEvents();
 
             pendingTasks = new List<KeyValuePair<string, string>>();
 
+            InitTV();
+
+            InitCore();
+
+            DoLoop = true;
+            Main_Loop();
+
+        }
+
+        private void BindEvents()
+        {
+            //Form Events
+            this.FormClosing += Editor_FormClosing;
+            lstEntities.MouseDoubleClick += lstEntities_MouseDoubleClick;
+            lstModels.MouseDoubleClick += lstModels_MouseDoubleClick;
+        }
+
+        private void InitTV()
+        {
             Engine = new TVEngine();
             Scene = new TVScene();
             Inputs = new TVInputEngine();
@@ -78,18 +101,15 @@ namespace R3D
             Text2D = new TVScreen2DText();
             Lights = new TVLightEngine();
             Camera = new TVCamera();
-
-            InitCore();
-
-            DoLoop = true;
-            Main_Loop();
-
         }
 
         private void InitCore()
         {
 
             if (World == null) { World = new R3DWorld(); }
+
+            //set the media path for the world
+            World.MediaPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\Media\\";
 
             Engine.SetSearchDirectory(Application.StartupPath);
 
@@ -118,52 +138,13 @@ namespace R3D
             //Init Camera
             Engine.SetCamera(Camera);
             Camera.SetViewFrustum(World.Camera.DegreesFOV, World.Camera.FarPlane, World.Camera.NearPlane);
-            Camera.SetPosition(World.Camera.PosX, World.Camera.PosY, World.Camera.PosZ);
+
+            sngPositionX = World.Camera.PosX;
+            sngPositionY = World.Camera.PosY;
+            sngPositionZ = World.Camera.PosZ;
 
             this.Show();
             this.Focus();
-
-        }
-
-        public void InitWorld()
-        {
-
-            InitCore();
-
-            if (World != null)
-            {
-                // Init skybox
-                if (World.SkyBox != null)
-                {
-                    World.SkyBox.CreateSkybox(ref TexFact, ref Atmo, ref Globals);
-                }
-
-                // Init lighting setup
-                Lights.CreateDirectionalLight(new TV_3DVECTOR(0, -0.9f, -0.8f), 1, 1, 0.95f, "Sunlight", 1f);
-
-                // Init Landscape
-                if (World.Landscape != null)
-                {
-                    LandscapeDefinition R3DLand = World.Landscape;
-                    World.CreateLandscape(ref R3DLand, ref Land, ref Scene, ref TexFact, ref MatFact, ref Globals);
-                }
-
-                //Init Waterplane
-                if (World.Water != null)
-                {
-                    World.Water.CreateWaterPlane(ref TexFact, ref Scene, ref Camera, ref Maths, ref Globals);
-                }
-
-                if (World.EntityManager != null && World.EntityManager.Count > 0)
-                {
-                    World.LoadMeshesFromEM(ref Scene, ref TexFact);
-                    BindEntities();
-                }
-
-            }
-
-            DoLoop = true;
-            Main_Loop();
 
         }
 
@@ -173,7 +154,7 @@ namespace R3D
             do
             {
 
-                Check_Input();
+                Editor_Logic();
 
                 Check_Movement();
 
@@ -198,8 +179,19 @@ namespace R3D
                 Text2D.Action_BeginText();
                 Text2D.TextureFont_DrawText("X:" + sngPositionX, 10, 30, Globals.RGBA(1, 1, 1, 1));
                 Text2D.TextureFont_DrawText("Y:" + sngPositionY, 10, 50, Globals.RGBA(1, 1, 1, 1));
-                Text2D.TextureFont_DrawText("Z:" + sngPositionY, 10, 70, Globals.RGBA(1, 1, 1, 1));
+                Text2D.TextureFont_DrawText("Z:" + sngPositionZ, 10, 70, Globals.RGBA(1, 1, 1, 1));
+
+                Text2D.TextureFont_DrawText("LookX:" + snglookatX, 10, 90, Globals.RGBA(1, 1, 1, 1));
+                Text2D.TextureFont_DrawText("LookY:" + snglookatY, 10, 110, Globals.RGBA(1, 1, 1, 1));
+                Text2D.TextureFont_DrawText("LookZ:" + snglookatZ, 10, 130, Globals.RGBA(1, 1, 1, 1));
+
+                Text2D.TextureFont_DrawText("Edit Mode:" + editMode.ToString(), 10, 150, Globals.RGBA(1, 1, 1, 1));
                 Text2D.Action_EndText();
+
+                if (drawEditGrid)
+                {
+                    Draw_Editor_Grid();
+                }
 
                 Engine.RenderToScreen();
 
@@ -221,10 +213,9 @@ namespace R3D
             if (Land != null) { Land.Render(); }   
         }
 
-        private void Check_Input()
+        private void Editor_Logic()
         {
-            //Camera Movement
-
+            // Camera Movement
             if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_W) == true)
             {
                 sngWalk = 1;
@@ -233,7 +224,6 @@ namespace R3D
             {
                 sngWalk = -1;
             }
-
 
             if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_A) == true)
             {
@@ -246,13 +236,13 @@ namespace R3D
 
             if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_Q) == true)
             {
-                int tmpMouseX = 0;
-                int tmpMouseY = 0;
+                int tmpMouseLookX = 0;
+                int tmpMouseLookY = 0;
 
-                Inputs.GetMouseState(ref tmpMouseX, ref tmpMouseY);
+                Inputs.GetMouseState(ref tmpMouseLookX, ref tmpMouseLookY);
 
-                sngAngleX = sngAngleX - ((float)tmpMouseY / 100);
-                sngAngleY = sngAngleY - ((float)tmpMouseX / 100);
+                sngAngleX = sngAngleX - ((float)tmpMouseLookY / 100);
+                sngAngleY = sngAngleY - ((float)tmpMouseLookX / 100);
             }
 
             if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_R) == true)
@@ -262,6 +252,139 @@ namespace R3D
                 sngPositionZ = 0f;
             }
 
+            //
+
+            //change edit mode
+            if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_M) == true)
+            {
+                switch (editMode)
+                {
+                    case EditorMode.MOVE:
+                        editMode = EditorMode.SCALE;
+                        break;
+                    case EditorMode.SCALE:
+                        editMode = EditorMode.MOVE;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            int tmpMouseX = 0, tmpMouseY = 0;
+            bool tmpMouseB1 = false;
+
+            Inputs.GetAbsMouseState(ref tmpMouseX, ref tmpMouseY, ref tmpMouseB1);
+
+            if (tmpMouseB1)
+            {
+
+                CollisionResult = Scene.MousePick(tmpMouseX, tmpMouseY, 1, CONST_TV_TESTTYPE.TV_TESTTYPE_BOUNDINGBOX);
+
+                if (CollisionResult.IsCollision())
+                {
+                    selectedMesh?.ShowBoundingBox(false);
+                    selectedMesh = CollisionResult.GetCollisionMesh();
+                    selectedMesh.ShowBoundingBox(true,Globals.Colorkey(CONST_TV_COLORKEY.TV_COLORKEY_GREEN));
+                    ShowSelected();
+                }
+
+            }
+
+            if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_UPARROW))
+            {
+
+                if (selectedMesh != null)
+                {
+
+                    if (editMode == EditorMode.MOVE)
+                    {
+                        TV_3DVECTOR pos = selectedMesh.GetPosition();
+                        selectedMesh.SetPosition(pos.x, pos.y + 1, pos.z);
+                    }
+                    else if (editMode == EditorMode.SCALE)
+                    {
+                        TV_3DVECTOR scale = selectedMesh.GetScale();
+                        selectedMesh.SetScale(scale.x, scale.y + 0.001f, scale.z);
+                    }
+
+                }
+
+            }
+
+            if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_DOWNARROW))
+            {
+
+                if (selectedMesh != null)
+                {
+                    if (editMode == EditorMode.MOVE)
+                    {
+                        TV_3DVECTOR pos = selectedMesh.GetPosition();
+                        selectedMesh.SetPosition(pos.x, pos.y - 1, pos.z);
+                    }
+                    else if (editMode == EditorMode.SCALE)
+                    {
+                        TV_3DVECTOR scale = selectedMesh.GetScale();
+                        selectedMesh.SetScale(scale.x, scale.y - 0.001f, scale.z);
+                    }
+                }
+
+            }
+
+            if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_LEFTARROW))
+            {
+
+                if (selectedMesh != null)
+                {
+                    if (editMode == EditorMode.MOVE)
+                    {
+                        TV_3DVECTOR pos = selectedMesh.GetPosition();
+                        selectedMesh.SetPosition(pos.x, pos.y, pos.z + 1);
+                    }
+                    else if (editMode == EditorMode.SCALE)
+                    {
+                        TV_3DVECTOR scale = selectedMesh.GetScale();
+                        selectedMesh.SetScale(scale.x, scale.y, scale.z + 0.001f);
+                    }
+                }
+
+            }
+
+            if (Inputs.IsKeyPressed(CONST_TV_KEY.TV_KEY_RIGHTARROW))
+            {
+
+                if (selectedMesh != null)
+                {
+                    if (editMode == EditorMode.MOVE)
+                    {
+                        TV_3DVECTOR pos = selectedMesh.GetPosition();
+                        selectedMesh.SetPosition(pos.x, pos.y, pos.z - 1);
+                    }
+                    else if (editMode == EditorMode.SCALE)
+                    {
+                        TV_3DVECTOR scale = selectedMesh.GetScale();
+                        selectedMesh.SetScale(scale.x, scale.y, scale.z - 0.001f);
+                    }
+                }
+
+            }
+
+        }
+
+        private void ShowSelected()
+        {
+            MeshDefinition R3DMesh = World.EntityManager.Find(x => x.MeshName == selectedMesh.GetMeshName());
+            lstEntities.SelectedItem = R3DMesh;
+        }
+
+        private void Draw_Editor_Grid()
+        {
+            int lines = 0;
+            do
+            {
+                lines += 100;
+                Screen2D.Draw_Line3D(1, 1, lines, 2000, 1, lines, Globals.RGBA(0, 1, 0, 1), Globals.RGBA(0, 1, 0, 1));
+                Screen2D.Draw_Line3D(lines, 1, 1, lines, 1, 2000, Globals.RGBA(0, 1, 0, 1), Globals.RGBA(0, 1, 0, 1));
+            } while (lines < 2000);
         }
 
         private void Check_Movement()
@@ -276,7 +399,8 @@ namespace R3D
                 sngWalk = sngWalk - (float)0.005 * (float)Engine.TimeElapsed();
                 if (sngWalk < 0)
                     sngWalk = 0;
-            }else if(sngWalk < 0)
+            }
+            else if (sngWalk < 0)
             {
                 sngWalk = sngWalk + (float)0.005 * (float)Engine.TimeElapsed();
                 if (sngWalk > 0)
@@ -289,7 +413,8 @@ namespace R3D
                 sngStrafe = sngStrafe - (float)0.005 * (float)Engine.TimeElapsed();
                 if (sngStrafe < 0)
                     sngStrafe = 0;
-            }else if (sngStrafe < 0)
+            }
+            else if (sngStrafe < 0)
             {
                 sngStrafe = sngStrafe + (float)0.005 * (float)Engine.TimeElapsed();
                 if (sngStrafe > 0)
@@ -302,9 +427,10 @@ namespace R3D
             if (Land != null)
             {
                 sngPositionY = Land.GetHeight(sngPositionX, sngPositionZ) + 10;
-            }else
+            }
+            else
             {
-                sngPositionY = 10f;
+                sngPositionY = World.Camera.PosY;
             }
 
 
@@ -455,18 +581,6 @@ namespace R3D
             }
         }
 
-        void lstModels_SelectedIndexChanged(object sender, System.EventArgs e)
-        {
-  
-            {
-                ModelDefinition R3DModel = (ModelDefinition)lstModels.SelectedItem;
-                tModelX.Text = R3DModel.PosX.ToString();
-                tModelY.Text = R3DModel.PosY.ToString();
-                tModelZ.Text = R3DModel.PosZ.ToString();
-            }
-
-        }
-
         private void BindEntities()
         {
             //clear out previous
@@ -546,27 +660,54 @@ namespace R3D
             pendingTasks = null;
         }
 
-        private void bSetModelPos_Click(object sender, EventArgs e)
+        public void InitWorld()
         {
 
-            if (tModelX.Text.Length == 0 || tModelY.Text.Length == 0 || tModelZ.Text.Length == 0) { return; }
-            
-            ModelDefinition selectedR3DModel = (ModelDefinition)lstModels.SelectedItem;
+            InitCore();
 
-            if (selectedR3DModel != null)
+            if (World != null)
             {
-                float posX;
-                float posY;
-                float posZ;
+                // Init skybox
+                if (World.SkyBox != null)
+                {
+                    World.SkyBox.CreateSkybox(ref TexFact, ref Atmo, ref Globals);
+                }
 
-                float.TryParse(tModelX.Text, out posX);
-                float.TryParse(tModelY.Text, out posY);
-                float.TryParse(tModelZ.Text, out posZ);
+                // Init lighting setup
+                Lights.CreateDirectionalLight(new TV_3DVECTOR(0, -0.9f, -0.8f), 1, 1, 0.95f, "Sunlight", 1f);
 
-                World.NativeModelManager.Find(x => x.GetMeshName() == selectedR3DModel.ModelName).SetPosition(posX, posY, posZ);
-                World.ModelManager.Find(x => x.ModelName == selectedR3DModel.ModelName).SetPosition(posX, posY, posZ);
+                // Init Landscape
+                if (World.Landscape != null)
+                {
+                    LandscapeDefinition R3DLand = World.Landscape;
+                    World.CreateLandscape(ref R3DLand, ref Land, ref Scene, ref TexFact, ref MatFact, ref Globals);
+                }
+
+                //Init Waterplane
+                if (World.Water != null)
+                {
+                    World.Water.CreateWaterPlane(ref TexFact, ref Scene, ref Camera, ref Maths, ref Globals);
+                }
+
+                if (World.EntityManager != null && World.EntityManager.Count > 0)
+                {
+                    World.LoadMeshesFromEM(ref Scene, ref TexFact);
+                    BindEntities();
+                }
+
             }
 
+            DoLoop = true;
+            Main_Loop();
+
+        }
+
+        private void enableGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (drawEditGrid)
+            { drawEditGrid = false; ((ToolStripMenuItem)sender).Checked = false; }
+            else
+            { drawEditGrid = true; ((ToolStripMenuItem)sender).Checked = true; }
         }
     }
 

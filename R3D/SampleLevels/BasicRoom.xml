@@ -5,7 +5,7 @@
     <MeshDefinition>
       <ID>2</ID>
       <MeshName>Floor</MeshName>
-      <Texture>Media\Building Textures\3.bmp</Texture>
+      <Texture>Building Textures\3.bmp</Texture>
       <TextureName>floor</TextureName>
       <IsWall>false</IsWall>
       <X1>-500</X1>
@@ -20,7 +20,7 @@
     <MeshDefinition>
       <ID>3</ID>
       <MeshName>Wall1</MeshName>
-      <Texture>Media\Building Textures\10.bmp</Texture>
+      <Texture>Building Textures\10.bmp</Texture>
       <TextureName>wall1</TextureName>
       <IsWall>true</IsWall>
       <X1>500</X1>
@@ -35,7 +35,7 @@
     <MeshDefinition>
       <ID>4</ID>
       <MeshName>Wall2</MeshName>
-      <Texture>Media\Building Textures\10.bmp</Texture>
+      <Texture>Building Textures\10.bmp</Texture>
       <TextureName>Wall2</TextureName>
       <IsWall>true</IsWall>
       <X1>-500</X1>
@@ -50,7 +50,7 @@
     <MeshDefinition>
       <ID>5</ID>
       <MeshName>Wall3</MeshName>
-      <Texture>Media\Building Textures\10.bmp</Texture>
+      <Texture>Building Textures\10.bmp</Texture>
       <TextureName>wall3</TextureName>
       <IsWall>true</IsWall>
       <X1>-500</X1>
@@ -65,7 +65,7 @@
     <MeshDefinition>
       <ID>6</ID>
       <MeshName>Wall4</MeshName>
-      <Texture>Media\Building Textures\10.bmp</Texture>
+      <Texture>Building Textures\10.bmp</Texture>
       <TextureName>Wall4</TextureName>
       <IsWall>true</IsWall>
       <X1>500</X1>

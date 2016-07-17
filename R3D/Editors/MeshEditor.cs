@@ -18,6 +18,9 @@ namespace R3D.Editors
             InitializeComponent();
             _mesh = Mesh;
 
+            //set working dir
+            FD.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\Media\\";
+
             if (_mesh != null)
             {
 
@@ -65,11 +68,12 @@ namespace R3D.Editors
         private void bLoadTex_Click(object sender, EventArgs e)
         {
 
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = FD.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                tTexture.Text = openFileDialog1.FileName;
+                int mIndex = FD.FileName.IndexOf("\\Media\\");
+                tTexture.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
 
         }

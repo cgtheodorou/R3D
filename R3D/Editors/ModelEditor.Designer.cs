@@ -55,7 +55,7 @@
             this.bApply = new System.Windows.Forms.Button();
             this.cbCulling = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.FD = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // tName
@@ -287,10 +287,6 @@
             this.label11.TabIndex = 26;
             this.label11.Text = "Culling Mode";
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // ModelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,6 +359,6 @@
         private System.Windows.Forms.Button bApply;
         private System.Windows.Forms.ComboBox cbCulling;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog FD;
     }
 }

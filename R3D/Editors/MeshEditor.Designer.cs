@@ -52,7 +52,7 @@
             this.bApply = new System.Windows.Forms.Button();
             this.rbWall = new System.Windows.Forms.RadioButton();
             this.rbFloor = new System.Windows.Forms.RadioButton();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.FD = new System.Windows.Forms.OpenFileDialog();
             this.tMeshName = new System.Windows.Forms.TextBox();
             this.lbMeshName = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -229,7 +229,7 @@
             // 
             // bApply
             // 
-            this.bApply.Location = new System.Drawing.Point(12, 272);
+            this.bApply.Location = new System.Drawing.Point(13, 280);
             this.bApply.Name = "bApply";
             this.bApply.Size = new System.Drawing.Size(75, 23);
             this.bApply.TabIndex = 27;
@@ -258,10 +258,6 @@
             this.rbFloor.TabStop = true;
             this.rbFloor.Text = "Floor/Ceiling";
             this.rbFloor.UseVisualStyleBackColor = true;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // tMeshName
             // 
@@ -346,7 +342,7 @@
         private System.Windows.Forms.Button bApply;
         private System.Windows.Forms.RadioButton rbWall;
         private System.Windows.Forms.RadioButton rbFloor;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog FD;
         private System.Windows.Forms.TextBox tMeshName;
         private System.Windows.Forms.Label lbMeshName;
     }

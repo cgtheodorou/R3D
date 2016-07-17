@@ -35,6 +35,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -47,17 +48,13 @@
             this.bNewLand = new System.Windows.Forms.Button();
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.renderTimer = new System.Windows.Forms.Timer(this.components);
-            this.bSetModelPos = new System.Windows.Forms.Button();
-            this.lbModelX = new System.Windows.Forms.Label();
-            this.tModelX = new System.Windows.Forms.TextBox();
-            this.tModelY = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tModelZ = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.enableGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.WorldViewPort)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.tcSettings.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // WorldViewPort
@@ -87,6 +84,7 @@
             this.newToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.loadToolStripMenuItem,
+            this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -95,28 +93,36 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableGridToolStripMenuItem});
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -126,19 +132,11 @@
             // 
             // tabGeneral
             // 
-            this.tabGeneral.Controls.Add(this.tModelZ);
-            this.tabGeneral.Controls.Add(this.label3);
-            this.tabGeneral.Controls.Add(this.tModelY);
-            this.tabGeneral.Controls.Add(this.label2);
-            this.tabGeneral.Controls.Add(this.tModelX);
-            this.tabGeneral.Controls.Add(this.lbModelX);
-            this.tabGeneral.Controls.Add(this.bSetModelPos);
             this.tabGeneral.Controls.Add(this.lstModels);
             this.tabGeneral.Controls.Add(this.bCreateModel);
             this.tabGeneral.Controls.Add(this.label1);
             this.tabGeneral.Controls.Add(this.bCreateMesh);
             this.tabGeneral.Controls.Add(this.lstEntities);
-            this.tabGeneral.Controls.Add(this.bNewLand);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
@@ -194,7 +192,7 @@
             // 
             // bNewLand
             // 
-            this.bNewLand.Location = new System.Drawing.Point(6, 509);
+            this.bNewLand.Location = new System.Drawing.Point(8, 26);
             this.bNewLand.Name = "bNewLand";
             this.bNewLand.Size = new System.Drawing.Size(192, 23);
             this.bNewLand.TabIndex = 1;
@@ -207,69 +205,32 @@
             this.tcSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tcSettings.Controls.Add(this.tabGeneral);
+            this.tcSettings.Controls.Add(this.tabPage1);
             this.tcSettings.Location = new System.Drawing.Point(769, 27);
             this.tcSettings.Name = "tcSettings";
             this.tcSettings.SelectedIndex = 0;
             this.tcSettings.Size = new System.Drawing.Size(214, 576);
             this.tcSettings.TabIndex = 2;
             // 
-            // bSetModelPos
+            // tabPage1
             // 
-            this.bSetModelPos.Location = new System.Drawing.Point(6, 404);
-            this.bSetModelPos.Name = "bSetModelPos";
-            this.bSetModelPos.Size = new System.Drawing.Size(192, 23);
-            this.bSetModelPos.TabIndex = 7;
-            this.bSetModelPos.Text = "Set Position";
-            this.bSetModelPos.UseVisualStyleBackColor = true;
-            this.bSetModelPos.Click += new System.EventHandler(this.bSetModelPos_Click);
+            this.tabPage1.Controls.Add(this.bNewLand);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(206, 550);
+            this.tabPage1.TabIndex = 1;
+            this.tabPage1.Text = "Landscape";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // lbModelX
+            // enableGridToolStripMenuItem
             // 
-            this.lbModelX.AutoSize = true;
-            this.lbModelX.Location = new System.Drawing.Point(9, 381);
-            this.lbModelX.Name = "lbModelX";
-            this.lbModelX.Size = new System.Drawing.Size(14, 13);
-            this.lbModelX.TabIndex = 8;
-            this.lbModelX.Text = "X";
-            // 
-            // tModelX
-            // 
-            this.tModelX.Location = new System.Drawing.Point(29, 378);
-            this.tModelX.Name = "tModelX";
-            this.tModelX.Size = new System.Drawing.Size(35, 20);
-            this.tModelX.TabIndex = 11;
-            // 
-            // tModelY
-            // 
-            this.tModelY.Location = new System.Drawing.Point(94, 378);
-            this.tModelY.Name = "tModelY";
-            this.tModelY.Size = new System.Drawing.Size(35, 20);
-            this.tModelY.TabIndex = 13;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(74, 381);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Y";
-            // 
-            // tModelZ
-            // 
-            this.tModelZ.Location = new System.Drawing.Point(155, 378);
-            this.tModelZ.Name = "tModelZ";
-            this.tModelZ.Size = new System.Drawing.Size(35, 20);
-            this.tModelZ.TabIndex = 15;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(135, 381);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(14, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Z";
+            this.enableGridToolStripMenuItem.Checked = true;
+            this.enableGridToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enableGridToolStripMenuItem.Name = "enableGridToolStripMenuItem";
+            this.enableGridToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.enableGridToolStripMenuItem.Text = "Enable Grid";
+            this.enableGridToolStripMenuItem.Click += new System.EventHandler(this.enableGridToolStripMenuItem_Click);
             // 
             // Editor
             // 
@@ -290,6 +251,7 @@
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
             this.tcSettings.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,13 +277,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Timer renderTimer;
-        private System.Windows.Forms.TextBox tModelZ;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tModelY;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tModelX;
-        private System.Windows.Forms.Label lbModelX;
-        private System.Windows.Forms.Button bSetModelPos;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableGridToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }
 

@@ -16,10 +16,15 @@ namespace R3D.Landscape
 
         private R3D.Lib.LandscapeDefinition _land;
 
+        int mIndex = 0;
+
         public LandscapeEditor(ref R3D.Lib.LandscapeDefinition Land)
         {
             InitializeComponent();
             _land = Land;
+
+            //set working dir
+            FD.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\Media\\";
         }
 
 
@@ -31,42 +36,48 @@ namespace R3D.Landscape
 
         private void bHeight_Click(object sender, EventArgs e)
         {
-           DialogResult result = openFileDialog1.ShowDialog();
+           DialogResult result = FD.ShowDialog();
         
             if (result == DialogResult.OK)
             {
-                tHeightmap.Text = openFileDialog1.FileName;
-                _land.Heightmap = openFileDialog1.FileName;
+                mIndex = FD.FileName.IndexOf("\\Media\\");
+                tHeightmap.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
 
         }
 
         private void bTexture_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = FD.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                tTexture.Text = openFileDialog1.FileName;
-                _land.LandTexture = openFileDialog1.FileName;
+                mIndex = FD.FileName.IndexOf("\\Media\\");
+                tTexture.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
         }
 
         private void bDetail_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = FD.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                tDetail.Text = openFileDialog1.FileName;
-                _land.LandDetail = openFileDialog1.FileName;
+                mIndex = FD.FileName.IndexOf("\\Media\\");
+                tDetail.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
         }
 
         private void bApply_Click(object sender, EventArgs e)
         {
+
+            _land.Heightmap = tHeightmap.Text;
+            _land.LandTexture = tTexture.Text;
+            _land.LandDetail = tDetail.Text;
+
             this.Close();
             DialogResult = DialogResult.OK;
+
         }
     }
 }

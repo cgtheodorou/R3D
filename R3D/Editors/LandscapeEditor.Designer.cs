@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.FD = new System.Windows.Forms.OpenFileDialog();
             this.bHeight = new System.Windows.Forms.Button();
             this.tHeightmap = new System.Windows.Forms.TextBox();
             this.lbHeightmap = new System.Windows.Forms.Label();
@@ -61,10 +61,6 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // bHeight
             // 
@@ -376,7 +372,7 @@
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog FD;
         private System.Windows.Forms.Button bHeight;
         private System.Windows.Forms.TextBox tHeightmap;
         private System.Windows.Forms.Label lbHeightmap;

@@ -13,10 +13,15 @@ namespace R3D.Editors
     public partial class ModelEditor : Form
     {
         private R3D.Lib.ModelDefinition _model;
+
+        int mIndex = 0;
         public ModelEditor(ref R3D.Lib.ModelDefinition Model)
         {
             InitializeComponent();
             _model = Model;
+
+            //set working dir
+            FD.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\Media\\";
 
             if (_model != null)
             {
@@ -60,21 +65,23 @@ namespace R3D.Editors
 
         private void bFileBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = FD.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                tFilePath.Text = openFileDialog1.FileName;
+                mIndex = FD.FileName.IndexOf("\\Media\\");
+                tFilePath.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
         }
 
         private void bTexBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog1.ShowDialog();
+            DialogResult result = FD.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                tTexFilePath.Text = openFileDialog1.FileName;
+                mIndex = FD.FileName.IndexOf("\\Media\\");
+                tTexFilePath.Text = FD.FileName.Substring(mIndex + 7, FD.FileName.Length - (mIndex + 7));
             }
         }
     }
