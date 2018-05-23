@@ -43,13 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraDefinition.cs" />
-    <Compile Include="CloudDefinition.cs" />
-    <Compile Include="LandscapeDefinition.cs" />
-    <Compile Include="MeshDefinition.cs" />
-    <Compile Include="ModelDefinition.cs" />
-    <Compile Include="SkyboxDefinition.cs" />
-    <Compile Include="WaterPlaneDefinition.cs" />
+    <Compile Include="Interfaces\ILandscapeManager.cs" />
+    <Compile Include="Interfaces\IWaterManager.cs" />
+    <Compile Include="Models\CameraDefinition.cs" />
+    <Compile Include="Models\CloudDefinition.cs" />
+    <Compile Include="Interfaces\ITVEngine.cs" />
+    <Compile Include="Models\LandscapeDefinition.cs" />
+    <Compile Include="Models\MeshDefinition.cs" />
+    <Compile Include="Models\ModelDefinition.cs" />
+    <Compile Include="Models\SkyboxDefinition.cs" />
+    <Compile Include="Models\WaterPlaneDefinition.cs" />
     <Compile Include="R3DWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

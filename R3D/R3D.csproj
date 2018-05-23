@@ -54,7 +54,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualC" />
-    <Reference Include="MTV3D65">
+    <Reference Include="MTV3D65, Version=6.5.3244.34206, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Components\MTV3D65.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Readme.txt" />
     <Content Include="SampleLevels\BasicRoom.xml" />
     <Content Include="SampleLevels\terrainWorld.xml" />
   </ItemGroup>
